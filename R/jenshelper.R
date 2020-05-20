@@ -552,3 +552,21 @@ geom_split_violin <-
       )
     )
   }
+
+
+#' Standard error of the mean
+#'
+#' @param x
+#' @param sd true population sd if known, else sample sd autom. calculated
+#' @param na.rm default is TRUE!
+#'
+#' @return the standard error (sd/root n), not the Student's approx.!
+#' @export
+se <- function (x, sd = NULL, na.rm = TRUE)
+{
+  if (na.rm)
+    x <- na.omit(x)
+  if (is.null(sd))
+    s <- sd(x)
+  s/sqrt(length(x))
+}
