@@ -6,7 +6,7 @@ Author: Jens Barthelmes
 Maintainer: Jens Barthelmes <jensbarthelmes@gmail.com>
 Description: Functions include a named lookup vector, inverse hyperbolic sine transformation, common color palettes, tableone export helper, custome ggplot2 theme.
 Imports: NCmisc, stringr, ggplot2, kableExtra
-Suggests: tidyverse, cowplot, Amelia, scales, tableone
+Suggests: tidyverse, cowplot, scales, tableone
 License: MIT
 Encoding: UTF-8
 LazyData: true
