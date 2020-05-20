@@ -402,6 +402,23 @@ rms_results_kable <- function(rmsObj, ...){
     mykablestyle()
 }
 
+#' ggplotl
+#' Wrapper around ggplot() to use labels as axis labels
+#' @param ... ggplot parameters as usual
+#'
+#' @return ggplot with attr-label as axis labels
+#' @export
+ggplotl = function(...) {
+  plot = ggplot(...)
+  dat = plot$data
+  for (m in names(plot$mapping)) {
+    char = paste0(plot$mapping[m])
+    ml = attr(dat[, char], "label")
+    plot$labels[m] = ml
+  }
+  plot
+}
+
 
 #' Using
 #' Loads all the packages, then goes back and installs all the missing packages.
