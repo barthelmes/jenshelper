@@ -5,7 +5,7 @@
 \alias{retinal_palettes}
 \title{Nord and northern-themed color palettes}
 \format{
-An object of class \code{list} of length 30.
+An object of class \code{list} of length 31.
 }
 \usage{
 retinal_palettes

@@ -97,6 +97,5 @@ retinal_palettes <- list(#Nord Palette
   amy_pal = c("#415A77", "#B24745", "#ED9B40", "#628395", "#F27059", "#EFA8B8"),
   # Fabio Crameri Scientific Color Maps "Batlow"
   batlow10 = c("#011959", "#103F60", "#1C5A62", "#3C6D56", "#687B3E", "#9D892B", "#D29343", "#F8A17B", "#FDB7BC", "#FACCFA"),
-  queen = c("#9d1939", "#eebd31", "#11335d"),
-
+  queen = c("#9d1939", "#eebd31", "#11335d")
   )

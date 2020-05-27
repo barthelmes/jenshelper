@@ -553,3 +553,193 @@ se <- function(x, sd = NULL, na.rm = TRUE)
     s <- sd(x)
   s/sqrt(length(x))
 }
+
+# simplifying summary functions ---------------------------------------------------
+
+#' @title Combine aggregate functions and s
+#' @name wrapper - s and summary funs
+#' @aliases sum_
+#' @aliases mean_
+#' @aliases max_
+#' @aliases min_
+#' @aliases sd_
+#' @aliases var_
+#' @aliases first_
+#' @aliases last_
+#'
+#' @description
+#' \code{[summary function_*]} functions are simple wrappers of aggregate function
+#' and the \code{s} function. \code{s} removes all non-values,
+#' i.e. \code{NA,Inf,NaN}  from a vector.
+#' However, if the length is 0 it returns NA. The result is then passed to the
+#' corresponding aggregation function. For example,
+#' \code{min_(x)} is identical to \code{min(s(x))}. Please read \code{vignette("s")} for more information.
+#'
+#' @param .x a single vector
+#' @param ignore_na if false missing values are not omitted.
+#'
+#' @details 'first_non_na' is a faster version of 'first' since it only search for a non NA value until it finds one.
+#' 'squeeze' on the other hand checks if all elements are equal and then returns only that value.
+#'
+#' @return a single aggregated value
+#'
+#' @seealso \code{vignette("convert")}, \code{vignette("hablar")}
+#'
+#' @examples
+#' ## sum_ on non-rational numeric vector
+#' vector <- c(7, NaN, -Inf, 4)
+#' sum_(vector)
+#'
+#' ## Min of vector with length 0
+#' vector <- c()
+#' # With a wrapped s
+#' min_(vector)
+#'
+#' ## Max of vector with only NA
+#' # With a wrapped s
+#' max_(vector)
+#'
+#' ## Use of s when NA should not be removed
+#' vector <- c(7, Inf, NA, 4)
+#' # With a wrapped s
+#' sum_(vector, ignore_na = FALSE)
+#'
+#' @rdname aggregators
+#' @export
+
+max_ <- function(.x, ignore_na = TRUE) {
+  max(s(.x, ignore_na = ignore_na))}
+
+#' @rdname aggregators
+#' @export
+min_ <- function(.x, ignore_na = TRUE) {
+  min(s(.x, ignore_na = ignore_na))}
+
+#' @rdname aggregators
+#' @export
+sum_ <- function(.x, ignore_na = TRUE) {
+  sum(s(.x, ignore_na = ignore_na))}
+
+#' @rdname aggregators
+#' @export
+mean_ <- function(.x, ignore_na = TRUE) {
+  mean(s(.x, ignore_na = ignore_na))}
+
+#' @rdname aggregators
+#' @export
+median_ <- function(.x, ignore_na = TRUE) {
+  stats::median(s(.x, ignore_na = ignore_na))}
+
+#' @rdname aggregators
+#' @export
+sd_ <- function(.x, ignore_na = TRUE) {
+  stats::sd(s(.x, ignore_na = ignore_na))}
+
+#' @rdname aggregators
+#' @export
+var_ <- function(.x, ignore_na = TRUE) {
+  stats::var(s(.x, ignore_na = ignore_na))}
+
+#' @rdname aggregators
+#' @export
+first_ <- function(.x, ignore_na = TRUE) {
+  dplyr::first(s(.x, ignore_na = ignore_na))}
+
+#' @rdname aggregators
+#' @export
+last_ <- function(.x, ignore_na = TRUE) {
+  dplyr::last(s(.x, ignore_na = ignore_na))}
+
+#' @rdname aggregators
+#' @export
+first_non_na <- function(.x) {
+  .x <- rationalize(.x)
+  .x[base::Position(function(..x)!is.na(..x), .x)]
+}
+
+#' @rdname aggregators
+#' @export
+squeeze <- function(.x, ignore_na = FALSE) {
+  .uniques <- unique(rationalize(.x))
+  if(ignore_na == FALSE & length(.uniques) > 1) {
+    stop("More than one unique value")
+  }
+  if(ignore_na == FALSE & length(na.omit(.uniques)) == 0) {
+    stop("No non missing values, to ignore missing use 'squeeze_'")
+  }
+  if(ignore_na == TRUE & length(na.omit(.uniques)) > 1) {
+    stop("More than one unique non missing value")
+  }
+  if(length(na.omit(.uniques)) == 0) {
+    return(.uniques[1])
+  }
+  .uniques[!is.na(.uniques)]
+}
+
+#' @rdname aggregators
+#' @export
+squeeze_ <- function(.x, ignore_na = TRUE) {
+  squeeze(.x, ignore_na = ignore_na)
+}
+
+# from package davidsjoberg/hablar
+# simplifying math functions ---------------------------------------------------
+#' @title Ignore NA in math
+#' @name math ignore NA in math funs
+#' @aliases %minus_%
+#' @aliases %plus_%
+#'
+#' @description
+#' Simplifying math functions are simple wrappers of math function (- +).
+#' If any of the left-hand side or right-hand side is NA, Inf or NaN it
+#' returns any rational value, if there is any.
+#'
+#' However, if the both values are irrational it returns NA.
+#' The result is then passed to the
+#' corresponding math function.
+#'
+#' @param .x numeric or integer element
+#' @param .y numeric or integer element
+#'
+#' @return a single value
+#'
+#' @seealso \code{vignette("s")}, \code{vignette("hablar")}
+#'
+#' @examples
+#' \dontrun{# The simplest case
+#' 3 %minus_% 2
+#'
+#' # But with NA it returns 3 as if the NA were zero
+#' 3 %minus_% NA
+#'
+#' # It doesnt matter if the irrational number is on left- or right-hand.
+#' NA %plus_% 5
+#' }
+#'
+#' @rdname math
+#' @export
+`%minus_%` <- function(.x, .y) {
+  if(!all(c(class(.x), class(.y)) %in% c("integer",
+                                         "numeric"))){
+    stop("Input must be of type 'numeric' or 'integer'")
+  }
+  if(length(.x) != length(.y) & (length(.x) != 1 & length(.y) != 1)) {
+    stop("LHS need to have the same length as RHS or length 1")
+  }
+
+  ifelse(is.na(.x), 0, .x) - ifelse(is.na(.y), 0, .y)
+}
+
+#' @rdname math
+#' @export
+`%plus_%` <- function(.x, .y) {
+  if(!all(c(class(.x), class(.y)) %in% c("integer",
+                                         "numeric"))){
+    stop("Input must be of type 'numeric' or 'integer'")
+  }
+  if(length(.x) != length(.y) & (length(.x) != 1 & length(.y) != 1)) {
+    stop("LHS need to have the same length as RHS or length 1")
+  }
+
+  ifelse(is.na(.x), 0, .x) + ifelse(is.na(.y), 0, .y)
+}

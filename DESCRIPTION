@@ -1,7 +1,7 @@
 Package: jenshelper
 Type: Package
 Title: Miscallaneous functions created to help in workflow
-Version: 0.1.0
+Version: 0.2.0
 Author: Jens Barthelmes
 Maintainer: Jens Barthelmes <jensbarthelmes@gmail.com>
 Description: Palettes and functions. Including a named lookup vector, inverse hyperbolic sine transformation, common color palettes, tableone export helper, custome ggplot2 theme.
