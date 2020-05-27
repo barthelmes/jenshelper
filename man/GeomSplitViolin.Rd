@@ -11,6 +11,7 @@ An object of class \code{GeomSplitViolin} (inherits from \code{GeomViolin}, \cod
 GeomSplitViolin
 }
 \description{
-ggproto object needed for split violin graph
+ImportFrom ggplot2 GeomViolin ggproto ggname
+ImportFrom plyr arrange
 }
 \keyword{datasets}

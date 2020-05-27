@@ -8,25 +8,6 @@
 ########################## FUNCTION DEFINITIONS ################################
 ################################################################################
 
-#' ESC colors
-#' @export
-col_jb <- c(
-             "escred"        = "#d71440",
-             "escgreen"      = "#008393",
-             "hfayellow"     = "#F0BC00",
-             "bg"            = "#f0efe3",
-             "escred_a"      = "#0083934D",
-             "escgreen_a"    = "#F0BC004D",
-             "hfayellow_a"   = "#D714404D",
-             "bg"            = "#f0efe3DA",
-             "jaccblue"      = "#1D3056",
-             "uszblue"       = "#0558A2"
-            )
-
-#' Amyloidosis paper 4-5-color scheme
-#' @export
-amy_pal <- c("#415A77", "#B24745", "#ED9B40", "#628395", "#F27059", "#EFA8B8")
-
 
 #' Inverse hyperbolic sine transformation
 #' Can normalize data by log(x + sqrt(x ^ 2 + 1)
@@ -164,7 +145,7 @@ theme_jens <- function(font_size = 20, font_family = "Humanist 521",
       axis.ticks.length = unit(half_line, "pt"),
       axis.ticks.x = element_blank(),
       axis.title.x = element_blank(),
-      axis.title.y = element_text(angle = 90, margin = margin(r = half_line), # axis title orientation!
+      axis.title.y = element_text(angle = 90, margin = margin(r = small_size), # axis title orientation!
         vjust = 1),
       axis.title.y.right = element_text(angle = -90, margin = margin(l = half_line),
         vjust = 0),
@@ -360,10 +341,9 @@ formatp_nejm <- function(p){
 #' @examples
 formatp <- function(p){
   ifelse(p < 0.001, '<0.001',
-         ifelse(p < 0.01, '<0.01',
                 ifelse(p < 0.01, rndformat(p, digits = 3),
-                       rndformat(p, digits = 2))))
-}
+                       rndformat(p, digits = 2)))
+  }
 
 
 #' RMS result table
@@ -459,6 +439,9 @@ using <- function(...) {
 }
 
 #' ggproto object needed for split violin graph
+#'
+#' ImportFrom ggplot2 GeomViolin ggproto ggname
+#' ImportFrom plyr arrange
 #' @export GeomSplitViolin
 GeomSplitViolin <-
   ggplot2::ggproto(
@@ -562,7 +545,7 @@ geom_split_violin <-
 #'
 #' @return the standard error (sd/root n), not the Student's approx.!
 #' @export
-se <- function (x, sd = NULL, na.rm = TRUE)
+se <- function(x, sd = NULL, na.rm = TRUE)
 {
   if (na.rm)
     x <- na.omit(x)
