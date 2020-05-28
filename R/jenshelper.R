@@ -31,6 +31,22 @@ impmed <- function(x) {
   median(x, na.rm = T) + rnorm(sum(is.na(x))) * sd(x, na.rm = T)
 }
 
+
+
+#' T1 mat to dataframe
+#' Turn tableone output matrix into tidyverse data_frame
+#' @param mat
+#'
+#' @return
+#' @export
+#'
+#' @examples
+tableone_mat_to_data_frame <- function(mat) {
+  bind_cols(data_frame(Variable = rownames(mat)),
+            as_data_frame(mat))
+}
+
+
 #' Write a matrix via data frame to an xlsx file
 #' For Tableone objects: It writes a tableone (w/o print) to Excel file
 #' @param df
@@ -38,11 +54,10 @@ impmed <- function(x) {
 #' @param font_size
 #'
 #' @return an .xlsx file
-#' @export
 #'
-#' @examples
+#' @export
 write_tableone_to_xlsx <- function(mat, file) {
-  write_df_to_xlsx(df = tableone_mat_to_data_frame(mat),
+  write_df_to_xlsx(df = s(mat),
                    file = file,
                    font_size = 8)
 }
@@ -51,32 +66,32 @@ write_tableone_to_xlsx <- function(mat, file) {
 write_df_to_xlsx <- function(df, file, font_size) {
   ## Create a workbook object with one sheet
   ## https://rdrr.io/cran/openxlsx/man/setColWidths.html
-  wb <- createWorkbook()
-  addWorksheet(wb, sheetName = "1")
+  wb <- openxlsx::createWorkbook()
+  openxlsx::addWorksheet(wb, sheetName = "1")
 
   ## Write data frame data to the workbook object
-  writeData(wb, sheet = 1, x = df)
+  openxlsx::writeData(wb, sheet = 1, x = df)
 
   ## Format the variable name column
   ## https://rdrr.io/cran/openxlsx/man/createStyle.html
-  varname_style <- createStyle(fontSize = font_size, halign = "left", valign = "center")
-  addStyle(wb, sheet = 1, style = varname_style,
+  varname_style <- openxlsx::createStyle(fontSize = font_size, halign = "left", valign = "center")
+  openxlsx::addStyle(wb, sheet = 1, style = varname_style,
            rows = seq_len(nrow(df) + 1),
            cols = 1,
            gridExpand = TRUE)
 
   ## Format all other columns
-  varval_style <- createStyle(fontSize = font_size, halign = "center", valign = "center")
-  addStyle(wb, sheet = 1, style = varval_style,
+  varval_style <- openxlsx::createStyle(fontSize = font_size, halign = "center", valign = "center")
+  openxlsx::addStyle(wb, sheet = 1, style = varval_style,
            rows = seq_len(nrow(df) + 1),
            cols = seq_len(ncol(df))[-1],
            gridExpand = TRUE)
 
   ## Fix column width automatically
-  setColWidths(wb, sheet = 1, cols = seq_len(ncol(df)), widths = "auto")
+  openxlsx::setColWidths(wb, sheet = 1, cols = seq_len(ncol(df)), widths = "auto")
 
   ## Save to a file
-  saveWorkbook(wb, file = file, overwrite = TRUE)
+  openxlsx::saveWorkbook(wb, file = file, overwrite = TRUE)
 }
 
 #' My ggplot2 Theme
@@ -275,25 +290,6 @@ rndformat <- function(x, digits = 2, ...){ format(round(x, digits), nsmall = dig
 
 
 
-#' html-ify sMobj by F. Harrell
-#' e.g. summaryM object
-#' @param sMobj
-#' @param caption
-#'
-#' @return
-#' @export
-#'
-#' @examples
-my_html <- function(sMobj, caption){
-  html(
-    sMobj,
-    exclude1 = FALSE, long = TRUE, digits = 2, what = "%", npct = "both",
-    prmsd = TRUE, brmsd = TRUE, middle.bold = TRUE,
-    ## These options don't seem to be working.
-    msdsize = mu$smaller2, outer.size = mu$smaller2, rowsep = TRUE,
-    caption = caption
-  )
-}
 
 #' kable_styling wrapper to ensure all tables are consistently styled
 #' e.g. summaryM object from Hmisc
@@ -743,16 +739,3 @@ squeeze_ <- function(.x, ignore_na = TRUE) {
 
   ifelse(is.na(.x), 0, .x) + ifelse(is.na(.y), 0, .y)
 }
-
-
-
-#' Open Working Directory in Finder
-#' This fun is an active binding (no parentheses). Works only on MacOS.
-#' @return nothing, opens finder
-#' @export
-#'
-#' @examples
-makeActiveBinding('open', function() {
-  system('open .')
-  invisible(getwd())
-}, globalenv())
