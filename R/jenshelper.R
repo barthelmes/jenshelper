@@ -743,3 +743,16 @@ squeeze_ <- function(.x, ignore_na = TRUE) {
 
   ifelse(is.na(.x), 0, .x) + ifelse(is.na(.y), 0, .y)
 }
+
+
+
+#' Open Working Directory in Finder
+#' This fun is an active binding (no parentheses). Works only on MacOS.
+#' @return nothing, opens finder
+#' @export
+#'
+#' @examples
+makeActiveBinding('open', function() {
+  system('open .')
+  invisible(getwd())
+}, globalenv())
