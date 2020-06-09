@@ -35,7 +35,7 @@ retinal <- function(palette = "aurora", n, alpha = 1, reverse = FALSE) {
 
 }
 
-#' retinal palette with ramped colours
+#' @title Retinal palette with ramped colours
 #'
 #' @param palette Choose from 'retinal_palettes' list
 #'
@@ -53,9 +53,9 @@ retinal_pal <- function(palette = "aurora", alpha = 1, reverse = FALSE) {
 }
 
 
-#' retinal color scale for ggplot2
+#' @title scale_color_retinal
 #'
-#' @rdname scale_color_retinal
+#' retinal color scale for ggplot2
 #'
 #' @param palette Choose from 'retinal_palettes' list
 #'
@@ -78,10 +78,8 @@ retinal_pal <- function(palette = "aurora", alpha = 1, reverse = FALSE) {
 #' ggplot(diamonds) +
 #'  geom_point(aes(x = carat, y = price, color = cut)) +
 #'  scale_color_retinal("lumina")
-#'
-#' @export
-#'
 #' @importFrom ggplot2 discrete_scale scale_color_gradientn
+#' @export
 scale_color_retinal <- function(palette = "aurora", discrete = TRUE, alpha = 1, reverse = FALSE, ...) {
 
   if (discrete) {
@@ -97,7 +95,8 @@ scale_color_retinal <- function(palette = "aurora", discrete = TRUE, alpha = 1, 
 scale_colour_retinal <- scale_color_retinal
 
 
-#' #' retinal fill scale for ggplot2
+
+#' retinal fill scale for ggplot2
 #'
 #' @param palette Choose from 'retinal_palettes' list
 #'

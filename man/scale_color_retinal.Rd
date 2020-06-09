@@ -3,7 +3,9 @@
 \name{scale_color_retinal}
 \alias{scale_color_retinal}
 \alias{scale_colour_retinal}
-\title{retinal color scale for ggplot2}
+\title{scale_color_retinal
+
+retinal color scale for ggplot2}
 \usage{
 scale_color_retinal(
   palette = "aurora",
@@ -33,6 +35,8 @@ scale_colour_retinal(
 \item{...}{additional arguments to pass to scale_color_gradientn}
 }
 \description{
+scale_color_retinal
+
 retinal color scale for ggplot2
 }
 \examples{
@@ -42,5 +46,4 @@ library(retinal)
 ggplot(diamonds) +
  geom_point(aes(x = carat, y = price, color = cut)) +
  scale_color_retinal("lumina")
-
 }

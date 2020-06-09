@@ -2,7 +2,7 @@
 % Please edit documentation in R/scales.R
 \name{scale_fill_retinal}
 \alias{scale_fill_retinal}
-\title{#' retinal fill scale for ggplot2}
+\title{retinal fill scale for ggplot2}
 \usage{
 scale_fill_retinal(
   palette = "aurora",
@@ -24,7 +24,7 @@ scale_fill_retinal(
 \item{...}{additional arguments to pass to scale_color_gradientn}
 }
 \description{
-#' retinal fill scale for ggplot2
+retinal fill scale for ggplot2
 }
 \examples{
 library(ggplot2)

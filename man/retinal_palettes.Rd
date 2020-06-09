@@ -3,7 +3,19 @@
 \docType{data}
 \name{retinal_palettes}
 \alias{retinal_palettes}
-\title{Nord and northern-themed color palettes}
+\title{Nord and northern-themed color palettes
+
+Nord: An arctic, north-bluish color palette.
+Created for the clean- and minimal flat design pattern to achieve a optimal focus and readability for code syntax highlighting and UI. It consists of four palettes utilizing a total of sixteen, carefully selected, dimmed pastel colors for a eye-comfortable, but yet colorful ambiance.
+
+The available palettes are:
+polarnight
+snowstorm
+frost
+aurora
+
+There are also 11 Colour palettes extracted from the works of the [Group of Seven](https://en.wikipedia.org/wiki/Group_of_Seven_(artists)) and one color palette drawn from [Lumina Borealis](https://www.luminaborealis.com/)
+and 11 palettes for colors by Paul Tol}
 \format{
 An object of class \code{list} of length 39.
 }
@@ -11,10 +23,11 @@ An object of class \code{list} of length 39.
 retinal_palettes
 }
 \description{
+Nord and northern-themed color palettes
+
 Nord: An arctic, north-bluish color palette.
 Created for the clean- and minimal flat design pattern to achieve a optimal focus and readability for code syntax highlighting and UI. It consists of four palettes utilizing a total of sixteen, carefully selected, dimmed pastel colors for a eye-comfortable, but yet colorful ambiance.
-}
-\details{
+
 The available palettes are:
 polarnight
 snowstorm
