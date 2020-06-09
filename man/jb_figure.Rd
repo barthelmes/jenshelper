@@ -21,6 +21,9 @@ a ggplot dynamite plot with errorbars
 \description{
 Plot survey bar plots
 }
+<<<<<<< HEAD
 \examples{
 jenshelper::retinal_palettes # for choice of palettes
 }
+=======
+>>>>>>> 1ef4463dac2201b756ff509df3619eb3740f87c0
