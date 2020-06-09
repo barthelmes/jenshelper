@@ -5,7 +5,12 @@ Version: 0.2.0
 Author: Jens Barthelmes
 Maintainer: Jens Barthelmes <jensbarthelmes@gmail.com>
 Description: Palettes and functions. Including a named lookup vector, inverse hyperbolic sine transformation, common color palettes, tableone export helper, custome ggplot2 theme.
-Imports: NCmisc, stringr, ggplot2, kableExtra
+Imports: 
+    NCmisc,
+    stringr,
+    ggplot2,
+    kableExtra,
+    viridis
 Suggests: tidyverse, cowplot, scales, tableone
 License: MIT
 Encoding: UTF-8

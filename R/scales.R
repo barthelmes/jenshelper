@@ -35,7 +35,7 @@ retinal <- function(palette = "aurora", n, alpha = 1, reverse = FALSE) {
 
 }
 
-#' retinal palette with ramped colours
+#' @title Retinal palette with ramped colours
 #'
 #' @param palette Choose from 'retinal_palettes' list
 #'

@@ -2,7 +2,7 @@
 % Please edit documentation in R/scales.R
 \name{retinal_pal}
 \alias{retinal_pal}
-\title{retinal palette with ramped colours}
+\title{Retinal palette with ramped colours}
 \usage{
 retinal_pal(palette = "aurora", alpha = 1, reverse = FALSE)
 }
@@ -14,5 +14,5 @@ retinal_pal(palette = "aurora", alpha = 1, reverse = FALSE)
 \item{reverse}{If TRUE, the direction of the colours is reversed.}
 }
 \description{
-retinal palette with ramped colours
+Retinal palette with ramped colours
 }
