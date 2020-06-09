@@ -108,7 +108,7 @@ write_df_to_xlsx <- function(df, file, font_size) {
 #'
 #' @return a graph theme to be added to a ggplot
 #' @export
-theme_jens <- function(font_size = 20, font_family = "Humanist 521",
+theme_jb <- function(font_size = 20, font_family = "Humanist 521",
                       line_size = 1, rel_small = 14/16, rel_tiny = 12/14, rel_large = 16/14) {
   half_line <- font_size / 2
   small_size <- rel_small * font_size
@@ -326,6 +326,43 @@ formatp_nejm <- function(p){
                 ifelse(p < 0.01, rndformat(p, digits = 3),
                        rndformat(p, digits = 2))))
 }
+
+
+#' @title Adaptive rounding for tables
+#' This is an unvectorized form that works and gives single value (as opposed to the original function).
+#' @name adapt_round
+#' @param x a numeric constant
+#' @return an adaptively rounded constant.
+#' @examples
+#' adapt_round(0.3454)
+#' @export
+adapt_round <- function(x) {
+  if (vctrs::vec_is_empty(x))
+    return("NA")
+
+  if (all(is.na(x)))
+    return(NA)
+
+  if (!is.numeric(x))
+    stop("x should be numeric", call. = FALSE)
+
+  x_abs <- abs(x)
+
+
+    if (x_abs < 1) {
+      dig = 3
+    } else if (x_abs < 10) {
+      dig = 1
+    }
+    else if (x_abs < 100) {
+      dig = 1
+    } else {
+      dig = 0
+    }
+
+    round(x, dig)
+}
+
 
 #' Format p-values conventionally
 #' uses rndformat() from this pckg <0.001, <0.01.
