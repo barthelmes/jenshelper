@@ -96,6 +96,9 @@ retinal_palettes <- list(#Nord Palette
   # Semiotic (D3)
   semiotic_pal <- c("#ffd700", "#ffb14e", "#fa8775", "#ea5f94", "#cd34b5", "#9d02d7", "#0000ff"),
   # Amyloidosis intended palette
+  bad = c("#008393", "#D71440"),
+  sub = c("FF9B54", "#463F3A"),
+  medium = c("#008393", "#F0BC00"),
   amy2 = c("#415A77", "#B24745"),
   amy5 = c("#415A77", "#B24745", "#F27059", "#ED9B40", "#EFA8B8"),
   amy6 = c("#415A77", "#B24745", "#ED9B40", "#628395", "#F27059", "#EFA8B8"),
