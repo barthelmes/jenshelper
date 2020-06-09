@@ -94,39 +94,33 @@ write_df_to_xlsx <- function(df, file, font_size) {
   openxlsx::saveWorkbook(wb, file = file, overwrite = TRUE)
 }
 
-#' My ggplot2 Theme
+#' A customized ggplot2 theme for bar charts
+#' It has no x axis line, no grid. Does not work with coord_flip() therefore.
+#' Based on Claus Wilkens function but heavily modified.
+#' *Type scales*
+#' - __default__ is 1.25, a major third,
+#' - golden ratio: (1 + sqrt(5)) / 2,
+#' - perfect fourth: 1.333,
+#' - augmented 4th: 1.414
+#' @param font_size base font size (e.g. axis labels)
+#' @param font_family font
+#' @param line_size the line width
+#' @param rel_small a fraction or relative type scale factor (e.g. axis numbers)
+#' @param rel_tiny a fraction or relative type scale factor (e.g. subtitles)
+#' @param rel_large a fraction or relative type scale factor (e.g. titles)
 #'
-#' It's based on cowplot which modifies theme_grey. Doesn't depend on cowplot. It %+replace% in theme_grey.
-#' Particular: y-axis label is title. ylab is supposed to be the unit of abscissa.
-#' @param portrait If F sets margins adequate for landscape plots (assymmetric)
-#' @param font_size in pt
-#' @param font_family font or either of sans, serif
-#' @param line_size width of important lines
-#' @param rel_small legend, strip and subtitle
-#' @param rel_tiny for captions
-#' @param rel_large for title
-#'
-#' @return a graph theme to be added to a ggplot
+#' @return a theme that can be + theme_jens() to a ggplot()
 #' @export
-theme_jb <- function(font_size = 20, font_family = "Humanist 521",
-                      line_size = 1, rel_small = 14/16, rel_tiny = 12/14, rel_large = 16/14) {
-  half_line <- font_size / 2
+theme_jb <- function(font_size = 19, font_family = "IBM Plex Sans Condensed",
+                     line_size = 0.54, rel_small = 15.2/19, rel_tiny = 12.2/19, rel_large = 23.75/19) {
+
+  half_line  <- font_size / 2
   small_size <- rel_small * font_size
-  phi <- (1 + sqrt(5)) / 2
-  theme_grey(base_size = font_size, base_family = font_family) %+replace%
+
+  theme_minimal(base_size = font_size, base_family = font_family) %+replace%
     theme(
-      line = element_line(
-        color = "black",
-        size = line_size,
-        linetype = 1,
-        lineend = "butt"
-      ),
-      rect = element_rect(
-        fill = NA,
-        color = NA,
-        size = line_size,
-        linetype = 1
-      ),
+      line = element_line(color = "black", size = line_size, linetype = 1, lineend = "butt"),
+      rect = element_rect(fill = NA, color = NA, size = line_size, linetype = 1),
       text = element_text(
         family = font_family,
         face = "plain",
@@ -137,22 +131,19 @@ theme_jb <- function(font_size = 20, font_family = "Humanist 521",
         angle = 0,
         lineheight = 0.9,
         margin = margin(),
-        debug = FALSE
-      ),
-      axis.line = element_line(
-        color = "black",
-        size = line_size,
-        lineend = "square"
-      ),
+        debug = FALSE),
+      axis.line = element_line(color = "black", size = line_size, lineend = "square"),
       axis.line.x = element_blank(),
       axis.line.y = NULL,
       axis.text = element_text(color = "black",
                                size = small_size),
-      axis.text.x = element_text(margin = margin(t = small_size),
+      axis.text.x = element_text(margin = margin(t = half_line),
+                                 size = font_size,
                                  vjust = 1),
       axis.text.x.top = element_text(margin = margin(b = small_size),
                                      vjust = 0),
       axis.text.y = element_text(margin = margin(r = small_size),
+                                 size = small_size,
                                  hjust = 1),
       axis.text.y.right = element_text(margin = margin(l = small_size),
                                        hjust = 0),
@@ -160,11 +151,14 @@ theme_jb <- function(font_size = 20, font_family = "Humanist 521",
       axis.ticks.length = unit(half_line, "pt"),
       axis.ticks.x = element_blank(),
       axis.title.x = element_blank(),
-      axis.title.y = element_text(angle = 90, margin = margin(r = small_size), # axis title orientation!
-        vjust = 1),
-      axis.title.y.right = element_text(angle = -90, margin = margin(l = half_line),
-        vjust = 0),
+      axis.title.y = element_text(angle = 90, margin = margin(r = font_size * rel_tiny), # axis title orientation!
+                                  vjust = 1),
+      axis.title.y.right = element_text(angle = -90,
+                                        margin = margin(l = half_line),
+                                        vjust = 0),
+
       legend.position = "none",
+
       panel.background = element_blank(),
       panel.border = element_blank(),
       panel.grid = element_blank(),
@@ -178,6 +172,7 @@ theme_jb <- function(font_size = 20, font_family = "Humanist 521",
       panel.spacing.x = NULL,
       panel.spacing.y = NULL,
       panel.ontop = FALSE,
+
       strip.background = element_rect(fill = "grey80"),
       strip.text = element_text(
         size = rel(rel_small),
@@ -190,23 +185,22 @@ theme_jb <- function(font_size = 20, font_family = "Humanist 521",
       strip.placement = "inside",
       strip.placement.x = NULL,
       strip.placement.y = NULL,
-      strip.switch.pad.grid = unit(half_line / 2,
-                                   "pt"),
-      strip.switch.pad.wrap = unit(half_line / 2,
-                                   "pt"),
+      strip.switch.pad.grid = unit(half_line / 2, "pt"),
+      strip.switch.pad.wrap = unit(half_line / 2, "pt"),
+
       plot.background = element_blank(),
       plot.title = element_text(
-        face = "bold",
+        face = "plain",
         size = rel(rel_large),
-        hjust = 0,
-        vjust = 1,
-        margin = margin(b = 4*half_line)
+        hjust = 0.5,
+        vjust = 0.5,
+        margin = margin(b = half_line)
       ),
       plot.subtitle = element_text(
         size = rel(rel_small),
         hjust = 0,
         vjust = 1,
-        margin = margin(b = half_line)
+        margin = margin(b = font_size)
       ),
       plot.caption = element_text(
         size = rel(rel_tiny),
@@ -222,9 +216,134 @@ theme_jb <- function(font_size = 20, font_family = "Humanist 521",
       plot.tag.position = c(0, 1),
       plot.margin = margin(half_line,
                            half_line, half_line, half_line),
-      aspect.ratio = 1.333,
+
+      aspect.ratio = 1.618,
       complete = TRUE
     )
+}
+
+
+
+
+#' Write a data frame to an xlsx file (TableOne)
+#'
+#' @param mat a matrix, i. e. from TableOne
+#' @param file destination file
+#' @param font_size
+#'
+#' @return an Excel file with Table
+#' #'
+#' @examples
+#' @export
+write_df_to_xlsx <- function(mat, file, font_size=9) {
+  ## Create a workbook object with one sheet
+  ## https://rdrr.io/cran/openxlsx/man/setColWidths.html
+  df <- bind_cols(data_frame(Variable = rownames(mat)),
+                  as_tibble(mat))
+  wb <- openxlsx::createWorkbook()
+  openxlsx::addWorksheet(wb, sheetName = "1")
+
+  ## Write data frame data to the workbook object
+  openxlsx::writeData(wb, sheet = 1, x = df)
+
+  ## Format the variable name column
+  ## https://rdrr.io/cran/openxlsx/man/createStyle.html
+  varname_style <- openxlsx::createStyle(fontSize = font_size, halign = "left", valign = "center")
+  openxlsx::addStyle(wb, sheet = 1, style = varname_style,
+                     rows = seq_len(nrow(df) + 1),
+                     cols = 1,
+                     gridExpand = TRUE)
+
+  ## Format all other columns
+  varval_style <- openxlsx::createStyle(fontSize = font_size, halign = "center", valign = "center")
+  openxlsx::addStyle(wb, sheet = 1, style = varval_style,
+                     rows = seq_len(nrow(df) + 1),
+                     cols = seq_len(ncol(df))[-1],
+                     gridExpand = TRUE)
+
+  ## Fix column width automatically
+  openxlsx::setColWidths(wb, sheet = 1, cols = seq_len(ncol(df)), widths = "auto")
+
+  # Save to a file
+  if (grepl('\\.xlsx$', file)) {
+    openxlsx::saveWorkbook(wb, file = file, overwrite = TRUE)
+  } else {
+    openxlsx::saveWorkbook(wb, file = paste0(file, ".xlsx"), overwrite = TRUE)
+  }
+}
+
+
+
+#' Get proper axis label for outcome variable
+#' Named vector as look-up table
+#' @param var "fida", "fidv", "fica", "avr", "crae", "crve", "fmd", "gtn", "pwv" or "aix"
+#' @param lookupvector names_long is saved in fun
+#'
+#' @return axis label for plot
+#' @export
+#'
+#' @examples
+get_axislabel <- function(var, lookupvector = names_long){
+  names_long <- c("Arterial Flicker-induced Dilatation (%)",
+                  "Venous Flicker-induced Dilatation (%)",
+                  "Arterial Flicker-induced max. Contraction (%)", "AVR",
+                  "CRAE (eq.)", "CRVE (eq.)", "Flow-Mediated Dilatation (%)",
+                  "GTN (%)", "Pulse Wave Velocity (%)", "Augmentation Index")
+  vars_outc <- c("fida", "fidv", "fica", "avr", "crae", "crve",
+                 "fmd", "gtn", "pwv", "aix")
+  names(names_long) <- vars_outc
+  myvalue <- lookupvector[var]
+  myvalue <- unname(myvalue)
+  return(myvalue)
+}
+
+
+
+
+
+
+#' @Title Plot survey bar plots
+#'
+#' @param df a survey design obsject (survey or srvyr)
+#' @param out a single variable of interest
+#' @param upper custom max value of y axis
+#' @param fillncolor any palette from \code{\link[jenshelper]{retinal_palettes}}
+#'
+#' @return a ggplot dynamite plot with errorbars
+#' @export
+#' jenshelper::retinal_palettes # for choice of palettes
+#' @examples
+jb_figure <- function(df = des_amy, out = fida, upper = NA, pal = "tol3" ) {
+  # check that df is a survey object
+  stopifnot("You need to provide a survey or svyr design object."=
+              rlang::inherits_any(df, c("survey.design", "survey.design2", "tbl_svy")) &&
+              !rlang::is_empty(df))
+  # set axis labels with custom function
+  laby = get_axislabel(paste(substitute(out)))
+  # create errorbar limits and calculate ipw mean
+  df_m <- {{df}} %>%
+    group_by(group) %>%
+    select({{out}}, group) %>%
+    summarise(mean = survey_mean({{out}}, na.rm = T)) %>%
+    transmute(mean = mean,
+              se = mean_se,
+              low = mean - mean_se,
+              high = mean + mean_se,
+              group = group)
+  # find reasonable default y_max
+  roundup <- if (is.numeric(upper)) upper else max(ceiling(1.4 * df_m$mean), na.rm = T)
+
+  plot <- ggplot2::ggplot(df_m, aes(x = group, y = mean, fill = group, color = group)) +
+    ggplot2::geom_bar(stat = "identity", width = 0.8) +
+    ggplot2::geom_errorbar(aes(ymin = low, ymax = high), width = 0.27, size = 1) +
+    ggplot2::ylab(laby) +
+    ggplot2::expand_limits(x = 1, y = roundup) +
+    ggplot2::scale_y_continuous(expand = c(0, 0)) +  # c(0.002,0) if color==black
+    # scale_fill_grey(start = .92, end = .25), # Andreas' favorite
+    jenshelper::scale_fill_retinal(substitute(pal)) +
+    jenshelper::scale_color_retinal(substitute(pal)) +
+    theme_jb()
+  plot
 }
 
 

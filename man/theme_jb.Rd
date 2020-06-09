@@ -2,36 +2,47 @@
 % Please edit documentation in R/jenshelper.R
 \name{theme_jb}
 \alias{theme_jb}
-\title{My ggplot2 Theme}
+\title{A customized ggplot2 theme for bar charts
+It has no x axis line, no grid. Does not work with coord_flip() therefore.
+Based on Claus Wilkens function but heavily modified.
+*Type scales*
+- __default__ is 1.25, a major third,
+- golden ratio: (1 + sqrt(5)) / 2,
+- perfect fourth: 1.333,
+- augmented 4th: 1.414}
 \usage{
 theme_jb(
-  font_size = 20,
-  font_family = "Humanist 521",
-  line_size = 1,
-  rel_small = 14/16,
-  rel_tiny = 12/14,
-  rel_large = 16/14
+  font_size = 19,
+  font_family = "IBM Plex Sans Condensed",
+  line_size = 0.54,
+  rel_small = 15.2/19,
+  rel_tiny = 12.2/19,
+  rel_large = 23.75/19
 )
 }
 \arguments{
-\item{font_size}{in pt}
+\item{font_size}{base font size (e.g. axis labels)}
 
-\item{font_family}{font or either of sans, serif}
+\item{font_family}{font}
 
-\item{line_size}{width of important lines}
+\item{line_size}{the line width}
 
-\item{rel_small}{legend, strip and subtitle}
+\item{rel_small}{a fraction or relative type scale factor (e.g. axis numbers)}
 
-\item{rel_tiny}{for captions}
+\item{rel_tiny}{a fraction or relative type scale factor (e.g. subtitles)}
 
-\item{rel_large}{for title}
-
-\item{portrait}{If F sets margins adequate for landscape plots (assymmetric)}
+\item{rel_large}{a fraction or relative type scale factor (e.g. titles)}
 }
 \value{
-a graph theme to be added to a ggplot
+a theme that can be + theme_jens() to a ggplot()
 }
 \description{
-It's based on cowplot which modifies theme_grey. Doesn't depend on cowplot. It %+replace% in theme_grey.
-Particular: y-axis label is title. ylab is supposed to be the unit of abscissa.
+A customized ggplot2 theme for bar charts
+It has no x axis line, no grid. Does not work with coord_flip() therefore.
+Based on Claus Wilkens function but heavily modified.
+*Type scales*
+- __default__ is 1.25, a major third,
+- golden ratio: (1 + sqrt(5)) / 2,
+- perfect fourth: 1.333,
+- augmented 4th: 1.414
 }
